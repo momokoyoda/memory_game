@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "nuxt",
+    "format": "prettier --write 'pages/**/*.vue'",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate"
