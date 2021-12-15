@@ -6,10 +6,12 @@
         :key="n"
         cols="3"  
       >
-        <v-card @click="card(n)" color="black" width="150" height="200"
+        <v-card @click="card(n)"  width="150" height="200"
           outlined
+          :color="(opened[n - 1] ==='opened'||opened[n - 1] ==='flipped') ? 'blue' : 'black'"
           
         >
+          {{opened[n - 1]}}
         </v-card>
       </v-col>
     </v-row>
@@ -20,15 +22,30 @@
 export default{
     data() {
         return {
-            opened: [false, false, false, false, false, false, false, false]
+            // カードのじょうたいは
+            // closed: 裏
+            // flipped: 一時的に表
+            // opened: 表
+            opened: ['flipped', 'closed', 'opened', 'flipped', 'closed', 'closed', 'closed', 'closed', ]
+            
         }
     },
 methods: {
     card(n) {
-    this.color="blue";
+      if(this.opened[n-1]==='closed'){
+         this.opened.splice(n-1,1,'flipped');
+      } 
+      else if(this.opened[n-1]==='flipped'){
+         this.opened.splice(n-1,1,'closed');
+      } 
       }
+
+      
+     // if(opened[n-1]==='closed') opened[n-1]='flipped';
+     // else if(opened[n-1]==='flipped') opened[n-1]='closed';
     }
 }
+
 </script>
 
 
