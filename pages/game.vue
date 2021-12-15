@@ -12,8 +12,8 @@
               ? 'blue'
               : 'black'
           "
-        >
-          {{ opened[n - 1] }}
+        >       
+          {{ random[n-1]}}
         </v-card>
       </v-col>
     </v-row>
@@ -21,23 +21,32 @@
 </template>
 
 <script>
+const shuffle = ([...array]) => {
+  for (let i = array.length - 1; i >= 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
 export default {
   data() {
+    const ordered=[1,1,2,2,3,3,4,4]
     return {
       // カードのじょうたいは
       // closed: 裏
       // flipped: 一時的に表
       // opened: 表
       opened: [
-        'flipped',
         'closed',
-        'opened',
-        'flipped',
+        'closed',
+        'closed',
+        'closed',
         'closed',
         'closed',
         'closed',
         'closed',
       ],
+      random:shuffle(ordered), 
     }
   },
   methods: {
@@ -47,10 +56,22 @@ export default {
       } else if (this.opened[n - 1] === 'flipped') {
         this.opened.splice(n - 1, 1, 'closed')
       }
-    },
 
-    // if(opened[n-1]==='closed') opened[n-1]='flipped';
-    // else if(opened[n-1]==='flipped') opened[n-1]='closed';
+      
+      if(this.opened.filter(cardStatus => cardStatus === 'flipped').length===2){
+        this.opened.forEach((cardStatus, idx) => {
+          if (cardStatus==='flipped') {
+            this.opened.splice(idx, 1, 'closed')
+          }
+  
+         // return cardStatus === 'flipped'
+        })
+
+       // this.opened.splice(flippedIdx, 1, 'closed')
+       // this.opened.splice(n-1, 1, 'closed')
+      }
+      
+    },
   },
 }
 </script>
