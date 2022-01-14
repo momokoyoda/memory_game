@@ -1,5 +1,11 @@
 <template>
   <v-container class="grey lighten-5" style="height: 500px">
+    <v-row>
+     <!-- <v-col style="color: black">
+        さいごにクリックしたかーどは　{{lastClickCard}}
+      </v-col>
+      -->
+    </v-row>
     <v-row align="center">
       <v-col ml auto v-for="n in 8" :key="n" cols="3">
         <v-card
@@ -14,6 +20,7 @@
           "
         >       
           {{ random[n-1]}}
+          {{opened[n-1]}}
         </v-card>
       </v-col>
     </v-row>
@@ -47,31 +54,51 @@ export default {
         'closed',
       ],
       random:shuffle(ordered), 
+     // lastClickCard: null,
+      flippedCard:null,
+      flippedCardnumber:null,
     }
   },
   methods: {
     card(n) {
+     // this.lastClickCard = this.random[n - 1]
+
+
       if (this.opened[n - 1] === 'closed') {
         this.opened.splice(n - 1, 1, 'flipped')
+       // this.flippedCard= this.random[n-1]
+        //this.flippedCardnumber = n-1;  
       } else if (this.opened[n - 1] === 'flipped') {
         this.opened.splice(n - 1, 1, 'closed')
+        this.flippedCard= null
       }
 
-      
+      if(this.opened.filter(cardStatus => cardStatus === 'flipped').length===1){
+        this.flippedCard= this.random[n-1]
+        this.flippedCardnumber = n-1;  
+      }
       if(this.opened.filter(cardStatus => cardStatus === 'flipped').length===2){
         this.opened.forEach((cardStatus, idx) => {
-          if (cardStatus==='flipped') {
-            this.opened.splice(idx, 1, 'closed')
-          }
+           if(this.flippedCard===this.random[n-1]){
+             this.opened.splice(n - 1, 1, 'opened')
+             this.opened.splice(this.flippedCardnumber, 1, 'opened')
+           }
+           else{
+             this.opened.splice(n - 1, 1, 'closed')
+             this.opened.splice(this.flippedCardnumber, 1, 'closed')
+           }
+         // if (cardStatus==='flipped') {
+           // this.opened.splice(idx, 1, 'closed')
+          //}
   
          // return cardStatus === 'flipped'
-        })
-
+        }
+        )}
        // this.opened.splice(flippedIdx, 1, 'closed')
        // this.opened.splice(n-1, 1, 'closed')
-      }
+      },
       
     },
-  },
-}
+};
+
 </script>
