@@ -65,7 +65,7 @@
           <v-btn
             color="primary"
             text
-            @click="$router.push('/')"
+            @click="reset"
           >
             Try Again
           </v-btn>
@@ -107,10 +107,15 @@ export default {
       flippedCard:null,
       flippedCardnumber:null,
       counter:null,
+      dialog_win:false,
+      dialog_lose:false,
       
     }
   },
-  reset(){
+  
+  methods: {
+    reset(){
+      const ordered=[1,1,2,2,3,3,4,4]
 // カードのじょうたいは
       // closed: 裏
       // flipped: 一時的に表
@@ -124,13 +129,12 @@ export default {
         'closed',
         'closed',
         'closed',
-      ],
-      this.random=shuffle(ordered),
-      this.flippedCard=null,
+      ]
+      this.random=shuffle(ordered)
+      this.flippedCard=null
       this.flippedCardnumber=null
-      this.counter=null,
+      this.counter=null
   },
-  methods: {
      show : function() {
       this.$modal.show('hello-world');
     },
