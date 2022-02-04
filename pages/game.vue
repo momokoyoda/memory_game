@@ -5,6 +5,7 @@
         さいごにクリックしたかーどは　{{lastClickCard}}
       </v-col>
       -->
+      
     </v-row>
     <v-row align="center">
       <v-col ml auto v-for="n in 8" :key="n" cols="3">
@@ -14,16 +15,64 @@
           height="200"
           outlined
           :color="
-            opened[n - 1] === 'opened' || opened[n - 1] === 'flipped'
-              ? 'blue'
-              : 'black'
+          opened[n-1]==='opened'? 'red'
+          :opened[n-1]==='flipped'? 'blue' : 'black'
           "
-        >       
+        >    
+           
           {{ random[n-1]}}
           {{opened[n-1]}}
-        </v-card>
+        </v-card >
       </v-col>
     </v-row>
+
+    <!-- モーダルウィンドウ -->
+    <div class="text-center">
+   <!-- 成功したとき -->
+    <v-dialog
+      v-model="dialog_win"
+      width="500"
+    >
+      <v-card>
+        <v-card-title class="text-h5 grey lighten-2">
+          You Win
+        </v-card-title>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="primary"
+            text
+            @click="dialog_win=false"
+          >
+            Back
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <!-- 失敗したとき -->
+     <v-dialog
+      v-model="dialog_lose"
+      width="500"
+    >
+      <v-card>
+        <v-card-title class="text-h5 grey lighten-2">
+          You Lose
+        </v-card-title>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="primary"
+            text
+            @click="$router.push('/')"
+          >
+            Try Again
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </div>
   </v-container>
 </template>
 
@@ -57,13 +106,21 @@ export default {
      // lastClickCard: null,
       flippedCard:null,
       flippedCardnumber:null,
+      counter:null,
+      dialog: false,
+      
     }
   },
   methods: {
+     show : function() {
+      this.$modal.show('hello-world');
+    },
+    hide : function () {
+      this.$modal.hide('hello-world');
+    },
     card(n) {
+      var counter =0
      // this.lastClickCard = this.random[n - 1]
-
-
       if (this.opened[n - 1] === 'closed') {
         this.opened.splice(n - 1, 1, 'flipped')
        // this.flippedCard= this.random[n-1]
@@ -71,33 +128,50 @@ export default {
       } else if (this.opened[n - 1] === 'flipped') {
         this.opened.splice(n - 1, 1, 'closed')
         this.flippedCard= null
-      }
-
+      }      
       if(this.opened.filter(cardStatus => cardStatus === 'flipped').length===1){
         this.flippedCard= this.random[n-1]
         this.flippedCardnumber = n-1;  
       }
-      if(this.opened.filter(cardStatus => cardStatus === 'flipped').length===2){
+      if(this.opened.filter(cardStatus => cardStatus === 'flipped').length===2)
+      {
+        this.counter++;
+        console.log(this.counter)
         this.opened.forEach((cardStatus, idx) => {
            if(this.flippedCard===this.random[n-1]){
              this.opened.splice(n - 1, 1, 'opened')
              this.opened.splice(this.flippedCardnumber, 1, 'opened')
+
            }
            else{
              this.opened.splice(n - 1, 1, 'closed')
              this.opened.splice(this.flippedCardnumber, 1, 'closed')
            }
+
          // if (cardStatus==='flipped') {
            // this.opened.splice(idx, 1, 'closed')
           //}
   
          // return cardStatus === 'flipped'
-        }
-        )}
+        })
+      }
+       var openCard =0
+       openCard = this.opened.filter(cardStatus => cardStatus === 'opened').length
+       if(openCard===8){
+         this.dialog_win=true
+         console.log("you win")
+       }
+       else if(this.counter===8&&openCard<8){
+         this.dialog_lose=true
+         console.log("you lose")
+       }
+       
+           
+          
        // this.opened.splice(flippedIdx, 1, 'closed')
        // this.opened.splice(n-1, 1, 'closed')
+
       },
-      
     },
 };
 
