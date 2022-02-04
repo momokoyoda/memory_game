@@ -107,9 +107,28 @@ export default {
       flippedCard:null,
       flippedCardnumber:null,
       counter:null,
-      dialog: false,
       
     }
+  },
+  reset(){
+// カードのじょうたいは
+      // closed: 裏
+      // flipped: 一時的に表
+      // opened: 表
+      this.opened= [
+        'closed',
+        'closed',
+        'closed',
+        'closed',
+        'closed',
+        'closed',
+        'closed',
+        'closed',
+      ],
+      this.random=shuffle(ordered),
+      this.flippedCard=null,
+      this.flippedCardnumber=null
+      this.counter=null,
   },
   methods: {
      show : function() {
@@ -160,6 +179,7 @@ export default {
        if(openCard===8){
          this.dialog_win=true
          console.log("you win")
+         
        }
        else if(this.counter===8&&openCard<8){
          this.dialog_lose=true
