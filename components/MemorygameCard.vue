@@ -1,18 +1,6 @@
 <template>
-  <v-container class="grey lighten-5" style="height: 500px">
-    <!-- <nuxt-logo
-      :message="'hello world'"
-    /> -->
-    <v-row>
-     <!-- <v-col style="color: black">
-        さいごにクリックしたかーどは　{{lastClickCard}}
-      </v-col>
-      -->
-    </v-row>
-    <v-row align="center">
-      <v-col ml auto v-for="n in 8" :key="n" cols="3">
-      <memorygame-card :n="8"/>
-        <!-- <v-card
+<div id="memorygame-card">
+<v-card
           @click="card(n)"
           width="150"
           height="200"
@@ -25,59 +13,8 @@
            
           {{ random[n-1]}}
           {{opened[n-1]}}
-        </v-card > -->
-      </v-col>
-    </v-row>
-
-    <!-- モーダルウィンドウ -->
-    <div class="text-center">
-   <!-- 成功したとき -->
-    <v-dialog
-      v-model="dialog_win"
-      width="500"
-    >
-      <v-card>
-        <v-card-title class="text-h5 grey lighten-2">
-          You Win
-        </v-card-title>
-
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="primary"
-            text
-            @click="dialog_win=false"
-          >
-            Back
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-    
-    <!-- 失敗したとき -->
-     <v-dialog
-      v-model="dialog_lose"
-      width="500"
-    >
-      <v-card>
-        <v-card-title class="text-h5 grey lighten-2">
-          You Lose
-        </v-card-title>
-
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="primary"
-            text
-            @click="reset"
-          >
-            Try Again
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </div>
-  </v-container>
+        </v-card >
+</div>
 </template>
 
 <script>
@@ -89,6 +26,7 @@ const shuffle = ([...array]) => {
   return array;
 }
 export default {
+    props: ['n'],
   data() {
     const ordered=[1,1,2,2,3,3,4,4]
     return {
@@ -195,4 +133,22 @@ export default {
       },
     },
 };
+// Vue.component('card', {
+//   template: 
+//   '<v-card
+//           @click="card(n)"
+//           width="150"
+//           height="200"
+//           outlined
+//           :color="
+//           opened[n-1]==='opened'? 'red'
+//           :opened[n-1]==='flipped'? 'blue' : 'black'
+//           "
+//         >    
+           
+//           {{ random[n-1]}}
+//           {{opened[n-1]}}
+//         </v-card >'
+// })
+
 </script>
