@@ -8,12 +8,10 @@
     </v-row>
     <v-row align="center">
       <v-col ml auto v-for="n in 8" :key="n" cols="3">
-      <memorygame-card n="8"
+      <memorygame-card  @click.native="card(n)" n="8"
         :openState="opened[n-1]"
-        :cardNumber="random[n-1]"
-      @click="card(n)">
-        
-          </memorygame-card>
+        :cardNumber="random[n-1]">
+      </memorygame-card>
         <!-- <v-card
           @click="card(n)"
           width="150"
@@ -48,7 +46,7 @@
           <v-btn
             color="primary"
             text
-            @click="dialog_win=false"
+            @click="$router.push('/')"
           >
             Back
           </v-btn>
@@ -139,8 +137,10 @@ export default {
       this.flippedCard=null
       this.flippedCardnumber=null
       this.counter=null
+      this.dialog_lose=false
   },
     card(n) {
+       console.log("yes")
       var counter =0
      // this.lastClickCard = this.random[n - 1]
       if (this.opened[n - 1] === 'closed') {
@@ -188,7 +188,7 @@ export default {
          this.dialog_lose=true
          console.log("you lose")
        }
-       
+      
            
           
        // this.opened.splice(flippedIdx, 1, 'closed')
