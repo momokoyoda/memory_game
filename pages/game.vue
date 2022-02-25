@@ -1,8 +1,5 @@
 <template>
   <v-container class="grey lighten-5" style="height: 500px">
-    <!-- <nuxt-logo
-      :message="'hello world'"
-    /> -->
     <v-row>
      <!-- <v-col style="color: black">
         さいごにクリックしたかーどは　{{lastClickCard}}
@@ -11,7 +8,12 @@
     </v-row>
     <v-row align="center">
       <v-col ml auto v-for="n in 8" :key="n" cols="3">
-      <memorygame-card :n="8"/>
+      <memorygame-card n="8"
+        :openState="opened[n-1]"
+        :cardNumber="random[n-1]"
+      @click="card(n)">
+        
+          </memorygame-card>
         <!-- <v-card
           @click="card(n)"
           width="150"
@@ -106,7 +108,7 @@ export default {
         'closed',
         'closed',
       ],
-      random:shuffle(ordered), 
+      random:shuffle(ordered),
      // lastClickCard: null,
       flippedCard:null,
       flippedCardnumber:null,
@@ -195,4 +197,5 @@ export default {
       },
     },
 };
+
 </script>
