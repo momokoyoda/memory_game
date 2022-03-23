@@ -17,8 +17,7 @@
 
 <script>
 export default {
-    // props: ['n','ordered','closed','flipped','opened','random','flippedCard','flippedCardnumber','counter','dialog_win','dialog_lose','opened[n-1]','random[n-1]'],
-    props :['n','openState','cardNumber'],
+    props :['openState','cardNumber'],
 };
 
 </script>

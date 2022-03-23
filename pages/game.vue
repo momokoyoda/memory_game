@@ -8,24 +8,11 @@
     </v-row>
     <v-row align="center">
       <v-col ml auto v-for="n in 8" :key="n" cols="3">
-      <memorygame-card  @click.native="card(n)" n="8"
-        :openState="opened[n-1]"
-        :cardNumber="random[n-1]">
-      </memorygame-card>
-        <!-- <v-card
-          @click="card(n)"
-          width="150"
-          height="200"
-          outlined
-          :color="
-          opened[n-1]==='opened'? 'red'
-          :opened[n-1]==='flipped'? 'blue' : 'black'
-          "
-        >    
-           
-          {{ random[n-1]}}
-          {{opened[n-1]}}
-        </v-card > -->
+        <memorygame-card  
+          @click.native="card(n)"
+          :openState="opened[n-1]"
+          :cardNumber="random[n-1]">
+        </memorygame-card>
       </v-col>
     </v-row>
 
