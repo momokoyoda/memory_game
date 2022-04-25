@@ -5,7 +5,7 @@
     <v-row align="center">
       <v-col ml auto v-for="n in 8" :key="n" cols="3">
         <memorygame-card @click.native="card(n)" :openState="opened[n - 1]" :cardNumber="random[n - 1]"
-         imageUrl="https://purr.objects-us-east-1.dream.io/i/ginger3.jpg">
+          :imageUrl="urlList[random[n - 1] - 1]">
         </memorygame-card>
       </v-col>
     </v-row>
@@ -57,8 +57,8 @@ const shuffle = ([...array]) => {
 }
 export default {
   data() {
-    // const ordered=[1,1,2,2,3,3,4,4]
-    const image = ["", "", "", "", "", "", "", ""]
+    const ordered = [1, 1, 2, 2, 3, 3, 4, 4]
+    // const urlList=["","","","","","","",""]
     return {
       // カードのじょうたいは
       // closed: 裏
@@ -74,18 +74,27 @@ export default {
         'closed',
         'closed',
       ],
-      random: shuffle(image),
+      random: shuffle(ordered),
       flippedCard: null,
       flippedCardnumber: null,
       counter: null,
       dialog_win: false,
       dialog_lose: false,
-
+      urlList: ["", "", "", ""]
     }
   },
+  async created() {
+    const image1 = await this.$axios.$get('https://aws.random.cat/meow').file
+    const image2 = await this.$axios.$get('https://aws.random.cat/meow').file
+    const image3 = await this.$axios.$get('https://aws.random.cat/meow').file
+    const image4 = await this.$axios.$get('https://aws.random.cat/meow').file
+
+    this.urlList = [image1, image2, image3, image4]
+  },
+
   methods: {
     reset() {
-      // const ordered=[1,1,2,2,3,3,4,4]
+      const ordered = [1, 1, 2, 2, 3, 3, 4, 4]
       this.opened = [
         'closed',
         'closed',
@@ -96,14 +105,16 @@ export default {
         'closed',
         'closed',
       ]
-      this.random = shuffle(image)
+      this.random = shuffle(ordered)
       this.flippedCard = null
       this.flippedCardnumber = null
       this.counter = null
       this.dialog_lose = false
     },
     card(n) {
-      console.log("yes")
+      // console.log("yes")
+
+
       var counter = 0
       // this.lastClickCard = this.random[n - 1]
       if (this.opened[n - 1] === 'closed') {
@@ -114,7 +125,7 @@ export default {
         this.opened.splice(n - 1, 1, 'closed')
         this.flippedCard = null
       }
-      this.image.splice(n - 1, 1, UrlList)
+      //this.image.splice(n - 1, 1, UrlList)
 
       if (this.opened.filter(cardStatus => cardStatus === 'flipped').length === 1) {
         this.flippedCard = this.random[n - 1]
@@ -130,8 +141,10 @@ export default {
 
           }
           else {
-            this.opened.splice(n - 1, 1, 'closed')
-            this.opened.splice(this.flippedCardnumber, 1, 'closed')
+            setTimeout(() => {
+              this.opened.splice(n - 1, 1, 'closed')
+              this.opened.splice(this.flippedCardnumber, 1, 'closed')
+            }, 1000)
           }
         })
       }
@@ -147,13 +160,8 @@ export default {
         console.log("you lose")
       }
     },
-    async GetUrl() {
-      const image1 = await this.$axios.$get('https://aws.random.cat/meow')
-      const image2 = await this.$axios.$get('https://aws.random.cat/meow')
-      const image3 = await this.$axios.$get('https://aws.random.cat/meow')
-      const image4 = await this.$axios.$get('https://aws.random.cat/meow')
-      const UrlList = [image1, image2, image3, image4]
-    }
+
+
   },
 };
 

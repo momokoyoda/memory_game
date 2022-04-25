@@ -6,7 +6,7 @@
         ">
             {{ cardNumber }}
             {{ openState }}
-            <v-img max-height="150" max-width="250" :src="imageUrl"></v-img>
+            <v-img v-if="openState !== 'closed'" height="150" width="200" :src="imageUrl"></v-img>
         </v-card>
     </div>
 </template>
