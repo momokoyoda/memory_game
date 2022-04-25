@@ -1,69 +1,49 @@
 <template>
   <v-container class="grey lighten-5" style="height: 500px">
     <v-row>
-     <!-- <v-col style="color: black">
-        さいごにクリックしたかーどは　{{lastClickCard}}
-      </v-col>
-      -->
     </v-row>
     <v-row align="center">
       <v-col ml auto v-for="n in 8" :key="n" cols="3">
-        <memorygame-card  
-          @click.native="card(n)"
-          :openState="opened[n-1]"
-          :cardNumber="random[n-1]">
+        <memorygame-card @click.native="card(n)" :openState="opened[n - 1]" :cardNumber="random[n - 1]"
+         imageUrl="https://purr.objects-us-east-1.dream.io/i/ginger3.jpg">
         </memorygame-card>
       </v-col>
     </v-row>
 
     <!-- モーダルウィンドウ -->
     <div class="text-center">
-   <!-- 成功したとき -->
-    <v-dialog
-      v-model="dialog_win"
-      width="500"
-    >
-      <v-card>
-        <v-card-title class="text-h5 grey lighten-2">
-          You Win
-        </v-card-title>
+      <!-- 成功したとき -->
+      <v-dialog v-model="dialog_win" width="500">
+        <v-card>
+          <v-card-title class="text-h5 grey lighten-2">
+            You Win
+          </v-card-title>
 
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="primary"
-            text
-            @click="$router.push('/')"
-          >
-            Back
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-    
-    <!-- 失敗したとき -->
-     <v-dialog
-      v-model="dialog_lose"
-      width="500"
-    >
-      <v-card>
-        <v-card-title class="text-h5 grey lighten-2">
-          You Lose
-        </v-card-title>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" text @click="$router.push('/')">
+              Back
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
 
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="primary"
-            text
-            @click="reset"
-          >
-            Try Again
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </div>
+      <!-- 失敗したとき -->
+      <v-dialog v-model="dialog_lose" width="500">
+        <v-card>
+          <v-card-title class="text-h5 grey lighten-2">
+            You Lose
+          </v-card-title>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" text @click="reset">
+              Try Again
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
   </v-container>
 </template>
 
@@ -77,7 +57,8 @@ const shuffle = ([...array]) => {
 }
 export default {
   data() {
-    const ordered=[1,1,2,2,3,3,4,4]
+    // const ordered=[1,1,2,2,3,3,4,4]
+    const image = ["", "", "", "", "", "", "", ""]
     return {
       // カードのじょうたいは
       // closed: 裏
@@ -93,24 +74,19 @@ export default {
         'closed',
         'closed',
       ],
-      random:shuffle(ordered),
-     // lastClickCard: null,
-      flippedCard:null,
-      flippedCardnumber:null,
-      counter:null,
-      dialog_win:false,
-      dialog_lose:false,
-      
+      random: shuffle(image),
+      flippedCard: null,
+      flippedCardnumber: null,
+      counter: null,
+      dialog_win: false,
+      dialog_lose: false,
+
     }
   },
   methods: {
-    reset(){
-      const ordered=[1,1,2,2,3,3,4,4]
-// カードのじょうたいは
-      // closed: 裏
-      // flipped: 一時的に表
-      // opened: 表
-      this.opened= [
+    reset() {
+      // const ordered=[1,1,2,2,3,3,4,4]
+      this.opened = [
         'closed',
         'closed',
         'closed',
@@ -120,69 +96,65 @@ export default {
         'closed',
         'closed',
       ]
-      this.random=shuffle(ordered)
-      this.flippedCard=null
-      this.flippedCardnumber=null
-      this.counter=null
-      this.dialog_lose=false
-  },
+      this.random = shuffle(image)
+      this.flippedCard = null
+      this.flippedCardnumber = null
+      this.counter = null
+      this.dialog_lose = false
+    },
     card(n) {
-       console.log("yes")
-      var counter =0
-     // this.lastClickCard = this.random[n - 1]
+      console.log("yes")
+      var counter = 0
+      // this.lastClickCard = this.random[n - 1]
       if (this.opened[n - 1] === 'closed') {
         this.opened.splice(n - 1, 1, 'flipped')
-       // this.flippedCard= this.random[n-1]
+        // this.flippedCard= this.random[n-1]
         //this.flippedCardnumber = n-1;  
       } else if (this.opened[n - 1] === 'flipped') {
         this.opened.splice(n - 1, 1, 'closed')
-        this.flippedCard= null
-      }      
-      if(this.opened.filter(cardStatus => cardStatus === 'flipped').length===1){
-        this.flippedCard= this.random[n-1]
-        this.flippedCardnumber = n-1;  
+        this.flippedCard = null
       }
-      if(this.opened.filter(cardStatus => cardStatus === 'flipped').length===2)
-      {
+      this.image.splice(n - 1, 1, UrlList)
+
+      if (this.opened.filter(cardStatus => cardStatus === 'flipped').length === 1) {
+        this.flippedCard = this.random[n - 1]
+        this.flippedCardnumber = n - 1;
+      }
+      if (this.opened.filter(cardStatus => cardStatus === 'flipped').length === 2) {
         this.counter++;
         console.log(this.counter)
         this.opened.forEach((cardStatus, idx) => {
-           if(this.flippedCard===this.random[n-1]){
-             this.opened.splice(n - 1, 1, 'opened')
-             this.opened.splice(this.flippedCardnumber, 1, 'opened')
+          if (this.flippedCard === this.random[n - 1]) {
+            this.opened.splice(n - 1, 1, 'opened')
+            this.opened.splice(this.flippedCardnumber, 1, 'opened')
 
-           }
-           else{
-             this.opened.splice(n - 1, 1, 'closed')
-             this.opened.splice(this.flippedCardnumber, 1, 'closed')
-           }
-
-         // if (cardStatus==='flipped') {
-           // this.opened.splice(idx, 1, 'closed')
-          //}
-  
-         // return cardStatus === 'flipped'
+          }
+          else {
+            this.opened.splice(n - 1, 1, 'closed')
+            this.opened.splice(this.flippedCardnumber, 1, 'closed')
+          }
         })
       }
-       var openCard =0
-       openCard = this.opened.filter(cardStatus => cardStatus === 'opened').length
-       if(openCard===8){
-         this.dialog_win=true
-         console.log("you win")
-         
-       }
-       else if(this.counter===8&&openCard<8){
-         this.dialog_lose=true
-         console.log("you lose")
-       }
-      
-           
-          
-       // this.opened.splice(flippedIdx, 1, 'closed')
-       // this.opened.splice(n-1, 1, 'closed')
+      var openCard = 0
+      openCard = this.opened.filter(cardStatus => cardStatus === 'opened').length
+      if (openCard === 8) {
+        this.dialog_win = true
+        console.log("you win")
 
-      },
+      }
+      else if (this.counter === 8 && openCard < 8) {
+        this.dialog_lose = true
+        console.log("you lose")
+      }
     },
+    async GetUrl() {
+      const image1 = await this.$axios.$get('https://aws.random.cat/meow')
+      const image2 = await this.$axios.$get('https://aws.random.cat/meow')
+      const image3 = await this.$axios.$get('https://aws.random.cat/meow')
+      const image4 = await this.$axios.$get('https://aws.random.cat/meow')
+      const UrlList = [image1, image2, image3, image4]
+    }
+  },
 };
 
 </script>
