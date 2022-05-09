@@ -84,10 +84,10 @@ export default {
     }
   },
   async created() {
-    const image1 = await this.$axios.$get('https://aws.random.cat/meow').file
-    const image2 = await this.$axios.$get('https://aws.random.cat/meow').file
-    const image3 = await this.$axios.$get('https://aws.random.cat/meow').file
-    const image4 = await this.$axios.$get('https://aws.random.cat/meow').file
+    const image1 = (await this.$axios.$get('https://aws.random.cat/meow')).file
+    const image2 = (await this.$axios.$get('https://aws.random.cat/meow')).file
+    const image3 = (await this.$axios.$get('https://aws.random.cat/meow')).file
+    const image4 = (await this.$axios.$get('https://aws.random.cat/meow')).file
 
     this.urlList = [image1, image2, image3, image4]
   },
